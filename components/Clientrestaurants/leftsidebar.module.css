@@ -1,0 +1,48 @@
+.imgsrc {
+    margin-right: 17px;
+}
+
+.res-category {
+    display: flex;
+    align-items: center;
+    height: 40px;
+    margin-bottom: 30px;
+    width: 190px;
+    transition: 0.5s all ease;
+    color: #333;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    text-transform: capitalize;
+    width: 100%;
+    line-height: 24px;
+    letter-spacing: 0.6px;
+    cursor: pointer;
+    gap: 10px;
+}
+
+.res-category:hover {
+    padding: 10px 4px;
+    color: #D63626;
+    background-color: rgba(214, 54, 38, 0.1)
+}
+
+.leftresdiv {
+    top: 0px;
+    position: sticky;
+    width: 271px;
+    height: 898px;
+    background: #F3F4F6;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+    padding: 49px 0 28px 28px;
+}
+
+.leftresdiv::-webkit-scrollbar {
+    width: 3px;
+    height: 338px;
+}
+
+.leftresdiv::-webkit-scrollbar-thumb {
+    background: #D63626;
+}

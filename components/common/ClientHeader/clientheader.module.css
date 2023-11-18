@@ -1,0 +1,81 @@
+.header-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 57px;
+    padding-right: 89px;
+    height: 80px;
+}
+
+.nav-container {
+    display: flex;
+    list-style-type: none;
+}
+
+.nav-container li:not(:last-child) {
+    margin-right: 22px;
+}
+
+.header-right-container {
+    display: flex;
+    align-items: center;
+}
+
+.search-inp {
+    display: flex;
+}
+
+.search {
+    width: 304px;
+    height: 45px;
+    border-radius: 10px;
+    padding-left: 20px;
+    color: #000;
+    font-family: "Roboto";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: normal;
+    margin-right: 31px;
+}
+
+.signup-btn :nth-child(1) {
+    background-color: #D63626;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 115px;
+    height: 41px;
+    color: #FFF;
+    text-align: center;
+    font-family: "Roboto";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0.48px;
+    cursor: pointer;
+}
+
+.link-bg {
+    color: #D63626 !important;
+    font-weight: 700;
+}
+
+.home-link {
+    transition: 0.5s all ease;
+}
+
+.home-link:hover {
+    color: #D63626 !important;
+}
+
+.searchArea::-webkit-scrollbar {
+    width: 4px;
+}
+
+.searchArea::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: #D63626 !important;
+}
