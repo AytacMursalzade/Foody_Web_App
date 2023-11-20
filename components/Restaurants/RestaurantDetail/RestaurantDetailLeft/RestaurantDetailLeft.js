@@ -10,41 +10,7 @@ import { useRouter } from "next/router";
 const RestaurantDetailLeft = ({id }) => {
   const { t } = useTranslation("common");
   const queryClient = useQueryClient();
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ["products"],
-    queryFn: async () => {
-      const { data } = await axios.get("/api/products");
-      return data;
-    },
-  });
-  const { mutate: addProductToBasket } = useMutation({
-    mutationFn: async (productId) => await axios.post('/api/basket/add', {
-        product_id: productId
-    }, {
-        headers: {
-            Authorization: `Bearer ${localStorage.getItem('access_token')}`
-        }
-    }),
-    onSuccess: (data) => {
-      toast.success("Product add to cart")
-        queryClient.invalidateQueries(["basket"]);
-    },
-    onError: (error) => {
-      console.log("erro")
-    }
-})
-const router=useRouter();
-const increaseProductCount = (productId) => {
-  if (localStorage.getItem('access_token')) {
-    addProductToBasket(productId);
-   
-  } else {
-    router.push("/login")
-  }
-}
-
-  const productData = data?.result?.data;
-  const restaurantProducts = productData?.filter((item) => item.rest_id === id);
+ 
   return (
     <>
     <ToastContainer autoClose={8000} />
