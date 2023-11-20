@@ -4,13 +4,12 @@ import { getStorage } from "firebase/storage";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-    apiKey: "AIzaSyCwYduTq7WSuBMz_N5ifNglxViW2QGmU5A",
-    authDomain: "foody-project-4611e.firebaseapp.com",
-    databaseURL: "https://foody-project-4611e-default-rtdb.firebaseio.com",
-    projectId: "foody-project-4611e",
-    storageBucket: "foody-project-4611e.appspot.com",
-    messagingSenderId: "282915645606",
-    appId: "1:282915645606:web:3f46d3908e7f1a6525ec67"
+  apiKey: "AIzaSyArmFWLVpe1OoB3uhTDLpGwxrAdYGX36-Y",
+  authDomain: "foody-web-app-4941e.firebaseapp.com",
+  projectId: "foody-web-app-4941e",
+  storageBucket: "foody-web-app-4941e.appspot.com",
+  messagingSenderId: "751759393843",
+  appId: "1:751759393843:web:1962a61a2649465f330f46",
 };
 
 // Initialize Firebase
