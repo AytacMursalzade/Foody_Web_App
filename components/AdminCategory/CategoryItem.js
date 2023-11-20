@@ -4,11 +4,11 @@ import { openDelCatModal } from "../../redux/features/delModalSlice";
 import editIcon from "../../assets/icons/editIcon.svg";
 import trashIcon from "../../assets/icons/trashIcon.svg";
 import Image from "next/image";
-import { useDispatch } from "react-redux";
+
 import styles from "./admincategory.module.css";
 const CategoryItem = ({ categoryData }) => {
 
-  const dispatch = useDispatch();
+ 
   const categoryResult = categoryData?.result;
 
  
@@ -24,12 +24,12 @@ const CategoryItem = ({ categoryData }) => {
       <td>{category.slug}</td>
       <td>
         <button
-          onClick={() => dispatch(openCategoryModalEdit(category))}
+         
           className="mr-4"
         >
           <Image src={editIcon} alt="edit-icon" />
         </button>
-        <button onClick={() => dispatch(openDelCatModal(category?.id))}>
+        <button >
           <Image src={trashIcon} alt="trash-icon" />
         </button>
       </td>
