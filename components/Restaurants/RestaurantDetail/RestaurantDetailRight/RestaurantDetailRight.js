@@ -88,17 +88,17 @@ const RestaurantDetailRight = () => {
       });
   };
 
-  const increaseProductCount = (productId) => {
-    addProductToBasket(productId);
+  const increaseProducts = (productId) => {
+    postResForm(productId);
   };
 
-  const decreaseProductCount = (productId) => {
-    delProductToBasket(productId);
+  const decreaseProducts = (productId) => {
+    deleteProduct(productId);
     console.log(productId);
   };
 
-  const handleClearBasket = (basketId) => {
-    clearBasket(basketId);
+  const handleClearProduct = (basketId) => {
+    clearProduct(basketId);
   };
   const { t } = useTranslation("common");
   const basketItems = userBasket?.result.data.items;
@@ -127,7 +127,7 @@ const RestaurantDetailRight = () => {
               </div>
               <button
                 className={styles["clear-btn"]}
-                onClick={() => handleClearBasket(userBasket?.result?.data?.id)}
+                onClick={() => handleClearProduct(userBasket?.result?.data?.id)}
               >
                 Clear all
               </button>
@@ -159,13 +159,13 @@ const RestaurantDetailRight = () => {
                     <div className="flex -ml-5">
                       <div className="flex flex-col mr-5 bg-white px-3 rounded-2xl">
                         <button
-                          onClick={() => increaseProductCount(basket?.id)}
+                          onClick={() => increaseProducts(basket?.id)}
                         >
                           +
                         </button>
                         <span className="font-bold">{basket?.count}</span>
                         <button
-                          onClick={() => decreaseProductCount(basket?.id)}
+                          onClick={() => decreaseProducts(basket?.id)}
                         >
                           -
                         </button>
