@@ -9,7 +9,26 @@ import RestaurantItemsContainer from './RestaurantItemsContainer.js/RestaurantIt
 
 const RestaurantItems = () => {
 
- 
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['restaurants'],
+    queryFn: async () => {
+      const { data } = await axios.get('/api/restuarants')
+      return data
+    },
+  })
+
+  if (isLoading) {
+    return <div className='flex justify-center items-center mx-0 my-auto'>
+      <BounceLoader
+        color="#C74FEB"
+        loading={true}
+        size={70}
+        aria-label="Loading Spinner"
+        data-testid="loader"
+      />
+    </div>
+  }
+  if (isError) return <div className='text-white'>error...</div>
 
   return (
     <>

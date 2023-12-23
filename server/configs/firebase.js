@@ -9,7 +9,7 @@ const firebaseConfig = {
   projectId: "foody-web-app-4941e",
   storageBucket: "foody-web-app-4941e.appspot.com",
   messagingSenderId: "751759393843",
-  appId: "1:751759393843:web:1962a61a2649465f330f46",
+  appId: "1:751759393843:web:1962a61a2649465f330f46"
 };
 
 // Initialize Firebase

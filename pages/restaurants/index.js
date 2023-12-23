@@ -4,9 +4,23 @@ import Leftsidebar from "../../components/Clientrestaurants/leftsidebar";
 import Rightsidebar from "../../components/Clientrestaurants/rightsidebar";
 import ClientContainer from "../../components/common/ClientContainer/ClientContainer";
 import { ToastContainer } from "react-toastify";
+import axios from "axios";
+import {useQuery} from "@tanstack/react-query";
+
+
+
 
 const index = () => {
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["products"],
+    queryFn: async () => {
+      const { data } = await axios.get("/api/products" );
+
+      return data;
+    },
+  });
+  console.log(data);
 
   const handleCategoryClick = (categoryId) => {
     setSelectedCategoryId(categoryId);

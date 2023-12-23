@@ -9,6 +9,44 @@ import { useRouter } from 'next/router';
 import { usePathname } from 'next/navigation';
 import { BounceLoader } from 'react-spinners';
 
+
+// axios.interceptors.response.use(
+//   function (response) {
+//     return response;
+//   },
+//   async function (error) {
+//     if (error.response && error.response.status === 401) {
+//       const refreshToken = localStorage.getItem('refresh_token');
+
+//       if (refreshToken) {
+//         try {
+//           const refreshResponse = await axios.post('/api/auth/refresh', { "refresh_token": refreshToken });
+//           localStorage.setItem('access_token', refreshResponse.data.access_token);
+//           localStorage.setItem('refresh_token', refreshResponse.data.refresh_token); // Anahtar belirtildi
+
+//           // Güncellenmiş token ile yeni isteği yapma
+//           const config = error.config;
+//           config.headers['Authorization'] = 'Bearer ' + refreshResponse.data.access_token;
+//           return axios.request(config);
+//         } catch (err) {
+//           console.log(err);
+//           window.location.href = "/login";
+//           localStorage.removeItem("access_token");
+//           localStorage.removeItem("refresh_token");
+//           return Promise.reject(err);
+//         }
+//       } else {
+//         window.location.href = "/login";
+//         localStorage.removeItem("access_token");
+//         localStorage.removeItem("refresh_token");
+//         return Promise.reject(error);
+//       }
+//     }
+//     return Promise.reject(error);
+//   }
+// );
+
+
 axios.interceptors.request.use(
   function (config) {
     config.headers.Authorization = `Bearer ${localStorage.getItem(
@@ -25,18 +63,56 @@ axios.interceptors.response.use(
   function (response) {
     return response;
   },
+  // async function handle401Error(error) {
+  //   console.log(error);
+  //   if (error.response && error.response.status === 401) {
+  //     const refreshToken = localStorage.getItem('refresh_token');
+  
+  //     if (refreshToken) {
+  //       try {
+  //         const refreshResponse = await axios.post('/api/auth/refresh', { "refresh_token": refreshToken });
+  //         console.log('ekolx', refreshResponse);
+  
+  //         // Yeni erişim token'ı alındıysa isteği tekrarla ve işlemi tamamla
+  //         localStorage.setItem('accessToken', refreshResponse.data.access_token);
+  //         // Yeni erişim token'ını başlıkta ayarla
+  //         error.config.headers['Authorization'] = 'Bearer ' + refreshResponse.data.access_token;
+          
+  //         // Yeniden denemek için orijinal isteği kullan
+  //         return axios.request(error.config);
+  //       } catch (err) {
+  //         console.log(err);
+  //         // Yenileme başarısız olursa giriş sayfasına yönlendir ve token'ları kaldır
+  //         window.location.href = "/login";
+  //         localStorage.removeItem("accessToken");
+  //         localStorage.removeItem("refresh_token");
+  //         return Promise.reject(err);
+  //       }
+  //     } else {
+  //       // Refresh token bulunmuyorsa işle
+  //       window.location.href = "/login";
+  //       localStorage.removeItem("accessToken");
+  //       localStorage.removeItem("refresh_token");
+  //       return Promise.reject(error);
+  //     }
+  //   } else {
+  //     // 401 dışındaki hatalar için promise reddedilir
+  //     return Promise.reject(error);
+  //   }
+  // }
+  
   async function (error) {
     console.log(error);
     if (error.response && error.response.status === 401) {
-      const isAvaibleToken = localStorage.getItem('refresh_token')
+      const refreshToken = localStorage.getItem('refresh_token')
 
-      if (isAvaibleToken) {
-        return axios.post('/api/auth/refresh', { "refresh_token": isAvaibleToken })
+      if (refreshToken) {
+        return axios.post('/api/auth/refresh', { "refresh_token": refreshToken })
           .then(response => {
-            console.log(response);
+            console.log('ekolx',response);
             // Yeni access token alındıysa isteği tekrarla ve işlemi tamamla
-            localStorage.setItem(response?.data.access_token)
-            localStorage.setItem(response?.data.refresh_token)
+            localStorage.setItem('accessToken', refreshResponse.data.access_token)
+            localStorage.setItem(refreshResponse.data.access_token)
             error.config.headers['Authorization'] = 'Bearer ' + response?.data.access_token;
             return axios.request(error.config);
           })
@@ -45,7 +121,7 @@ axios.interceptors.response.use(
             window.location.href = "/login";
             localStorage.removeItem("access_token");
             localStorage.removeItem("refresh_token");
-            return Promise.reject();
+            return Promise.reject('Unauthorized');
           })
       }
     }

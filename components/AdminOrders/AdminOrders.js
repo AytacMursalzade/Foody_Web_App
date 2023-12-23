@@ -5,9 +5,23 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import { BounceLoader } from "react-spinners";
 import OrderItem from "./OrderItem";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
-const AdminOrders = ({ orderData, isLoading, error }) => {
-  console.log(orderData)
+const AdminOrders = () => {
+  const { data: orderData, isLoading, error } = useQuery({
+    queryKey: ["order"],
+    queryFn: async () => {
+      const accessToken = localStorage.getItem("access_token");
+
+      const headers = {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      };
+      const { data } = await axios.get("/api/order", { headers });
+      return data;
+    },
+  });
   useEffect(() => {
     AOS.init();
   }, []);
