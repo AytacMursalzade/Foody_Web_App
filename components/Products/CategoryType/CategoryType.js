@@ -5,7 +5,13 @@ import SelectBox from '../../common/Selectbox/Selectbox'
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 const CategoryType = ({ pageName }) => {
-    
+    const { data } = useQuery({
+        queryKey: ['restaurants'],
+        queryFn: async () => {
+            const { data } = await axios.get('/api/restuarants')
+            return data
+        },
+    })
     return (
 
         <>

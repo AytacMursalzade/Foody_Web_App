@@ -1,6 +1,5 @@
 .basket-bg {
     position: relative;
-    padding: 20px 30px 30px 30px;
     width: 28%;
     height: 547px;
     position: relative;
@@ -32,17 +31,15 @@
     display: flex;
     align-items: center;
     border-bottom: 1px solid #E0E0E0;
-    padding-bottom: 14px;
+    padding: 12px 16px 12px 11px;
     justify-content: space-between;
-    margin-bottom: 20px;
 }
 
 .basket-card {
     display: flex;
     justify-content: space-between;
     width: 100%;
-    padding-bottom: 24.52px;
-    margin-bottom: 24.52px;
+    padding : 20px 11px;
     border-bottom: 1px solid #E0E0E0;
 }
 
@@ -67,13 +64,13 @@
     letter-spacing: 0.48px;
 }
 
-.basket-title :nth-child(2) {
-    color: #4F4F4F;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 600;
-    letter-spacing: 0.42px
-}
+    .basket-title :nth-child(2) {
+        color: #4F4F4F;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 600;
+        letter-spacing: 0.42px
+    }
 
 .basket-checkout {
     background: #D63626;
@@ -109,7 +106,16 @@
     font-weight: 500;
     letter-spacing: 0.48px;
 }
-
+.empty{
+    width: 28%;
+    background: #F3F4F6;
+    height: 547px;
+}
+.empty img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
 .clear-btn {
     font-size: 16px;
     border: 1px solid #D63626;
@@ -120,6 +126,7 @@
     border-radius: 20px;
     transition: 0.5s all ease;
 }
+
 .clear-btn:hover {
     background-color: #D63626;
     color: #fff;
@@ -127,4 +134,47 @@
 
 .food-head {
     margin-left: 20px;
+}
+
+.close {
+    display: none;
+}
+@media(max-width:1400px) {
+    .basket-bg{
+        width: 35%;
+    }
+}
+@media(max-width:1200px) {
+    .basket-bg,.empty{
+        width: 40%;
+    }
+}
+@media(max-width:992px) {
+    .overlay {
+        background-color: rgba(0, 0, 0, 0.20);
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 98;
+        height: 100vh;
+    }
+
+    .basket-bg ,.empty{
+ 
+        display: none;
+    }
+
+    .close {
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        border-bottom: 1px solid #eee;
+        margin-bottom: 20px;
+        justify-content: center;
+    }
+
+    .basket-middle {
+        margin-bottom: 0;
+    }
 }

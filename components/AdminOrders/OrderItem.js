@@ -10,7 +10,7 @@ const OrderItem = ({ orderData }) => {
   const orderResult = orderData?.result;
   const dispatch = useDispatch();
   const timestamps = orderResult?.data?.map((order) => order?.created);
-  const formattedDates = timestamps.map((timestamp) => {
+  const formattedDates = timestamps?.map((timestamp) => {
     const date = new Date(timestamp);
     const options = { year: 'numeric', month: 'short', day: 'numeric' };
     return date.toLocaleDateString('en-US', options);
@@ -23,7 +23,7 @@ const OrderItem = ({ orderData }) => {
       </td>
       <td>
         <span className={styles["table-id"]}>
-          {order?.customer_id.slice(0, 7)}
+          {order?.customer_id && order?.customer_id.slice(0, 7)}
         </span>
       </td>
       <td>
@@ -36,7 +36,7 @@ const OrderItem = ({ orderData }) => {
       <td className="flex items-center mt-2">
         <button
           className="mr-4"
-          onClick={() => dispatch(showOrderModal(order.id))}
+          onClick={() => dispatch(showOrderModal(order?.id))}
         >
           <Image src={eye} alt="edit-icon" />
         </button>

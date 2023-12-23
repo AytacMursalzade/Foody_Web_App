@@ -69,7 +69,7 @@ const RestaurantItem = ({ restaurantsData }) => {
           </div>
           <div className={styles['restaurant-detail']}>
             <h3>{(rest?.name).length > 14 ? (rest?.name).slice(0,14) + "..." : rest?.name}</h3>
-            <span>{rest?.cuisine}</span>
+            <span>{(rest?.cuisine).length > 16 ? (rest?.cuisine).slice(0,16) + '...' : rest?.cuisine}</span>
           </div>
           <div className='flex flex-col'>
             <button onClick={() => dispatch(openResDelModal(rest?.id))} className='mb-4'>

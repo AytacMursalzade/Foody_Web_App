@@ -8,14 +8,12 @@ import emptyBasket from "../../../../assets/icons/emptyBasket.png";
 import React from "react";
 import { useTranslation } from "next-i18next";
 import axios from "axios";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 
 const RestaurantDetailRight = () => {
-  const queryClient = useQueryClient();
-  const { mutate: addProductToBasket } = useMutation({
-    mutationFn: async (productId) =>
-      await axios.post(
+  const postResForm = () => {
+    axios
+      .post(
         "/api/basket/add",
         {
           product_id: productId,
@@ -25,71 +23,70 @@ const RestaurantDetailRight = () => {
             Authorization: `Bearer ${localStorage.getItem("access_token")}`,
           },
         }
-      ),
-    onSuccess: () => {
-      queryClient.invalidateQueries(["basket"]);
-    },
-    onError: (error) => {
-      console.log(error);
-    },
-  });
-  const { data: userBasket } = useQuery({
-    queryKey: ["basket"],
-    queryFn: async () => {
-      const { data } = await axios.get(
-        "/api/basket",
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-          },
-        },
-        {
-          onSuccess: (data) => {
-            console.log(data);
-            queryClient.invalidateQueries(["basket"]);
-          },
+      )
+      .then(function () {
+        queryClient.invalidateQueries(["basket"]);
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
+  };
+
+  const getResForm = () => {
+    axios
+      .get("/api/products" ,  {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         }
-      );
+      })
+      .then(function (data) {
+        console.log(data);
+        queryClient.invalidateQueries(["basket"]);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
       return data;
-    },
-  });
-  const { mutate: delProductToBasket } = useMutation({
-    mutationFn: async (productId) =>
-      await axios.delete("/api/basket/delete", {
+  };
+
+
+  const deleteProduct = (productId) => {
+    axios
+      .delete(`/api/basket/delete`, {
         data: {
           product_id: productId,
         },
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-        },
-      }),
-    onSuccess: () => {
-      queryClient.invalidateQueries(["basket"]);
-    },
-    onError: (error) => {
-      console.log(error);
-    },
-  });
+        }
+      })
+      .then(function (data) {
+        console.log( data);
+        queryClient.invalidateQueries(["basket"]);
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
+  };
 
-  const { mutate: clearBasket } = useMutation({
-    mutationFn: async (basketId) =>
-      await axios.delete("/api/basket/clear", {
+  const clearProduct = (productId) => {
+    axios
+      .delete(`/api/basket/clear`, {
         data: {
-          basket_id: basketId,
+          product_id: productId,
         },
         headers: {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-        },
-      }),
-    onSuccess: () => {
-      // alert('success')
-      queryClient.invalidateQueries(["basket"]);
-    },
-    onError: (error) => {
-      console.log(error);
-      alert("error", error);
-    },
-  });
+        }
+      })
+      .then(function (data) {
+        alert('success')
+        queryClient.invalidateQueries(["basket"]);
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
+  };
 
   const increaseProductCount = (productId) => {
     addProductToBasket(productId);
@@ -107,12 +104,19 @@ const RestaurantDetailRight = () => {
   const basketItems = userBasket?.result.data.items;
   return (
     <>
-      <div className={styles["basket-bg"]}>
-        { typeof basketItems==='undefined'||basketItems?.length===0  ? (
-          <div className="-mt-10 w-[345px]">
-            <Image width={800} height={1200} className='h-[610px] w-[700px] object-cover' src={emptyBasket} alt="empty-basket" />
-          </div>
-        ) : (
+      {" "}
+      {typeof basketItems === "undefined" || basketItems?.length === 0 ? (
+        <div className={styles.empty}>
+          <Image
+            width={800}
+            height={1200}
+            className="mx-auto"
+            src={emptyBasket}
+            alt="empty-basket"
+          />
+        </div>
+      ) : (
+        <div className={styles["basket-bg"]}>
           <>
             <div className={styles["basket-top"]}>
               <div className="flex">
@@ -133,13 +137,15 @@ const RestaurantDetailRight = () => {
                 {basketItems?.map((basket) => (
                   <div key={basket?.id} className={styles["basket-card"]}>
                     <div className="flex items-center">
-                      <div className="w-14">
-                        <Image
-                          src={basket?.img_url}
-                          width={200}
-                          height={200}
-                          alt="food"
-                        />
+                      <div className="flex-shrink-0">
+                        <div className="w-14">
+                          <Image
+                            src={basket?.img_url}
+                            width={200}
+                            height={200}
+                            alt="food"
+                          />
+                        </div>
                       </div>
                       <div className={styles["food-head"]}>
                         <h3 className="w-[240px] font-medium">
@@ -169,7 +175,7 @@ const RestaurantDetailRight = () => {
                   </div>
                 ))}
               </div>
-              <div className="absolute bottom-5 left-5 w-[90%]">
+              <div className="absolute bottom-2 left-5 lg:hidden block w-[90%]">
                 <Link
                   href="/user?page=user-checkout"
                   className={styles["basket-checkout"]}
@@ -183,9 +189,21 @@ const RestaurantDetailRight = () => {
                 </Link>
               </div>
             </div>
+
+            <div className="absolute lg:block hidden bottom-5 left-5 w-[90%]">
+              <Link
+                href="/user?page=user-checkout"
+                className={styles["basket-checkout"]}
+              >
+                <span className={styles["checkout-text"]}>{t("Checkout")}</span>
+                <div className={styles["checkout-bg"]}>
+                  $ {userBasket?.result.data.total_amount}
+                </div>
+              </Link>
+            </div>
           </>
-        )}
-      </div>
+        </div>
+      )}
       <ToastContainer />
     </>
   );
