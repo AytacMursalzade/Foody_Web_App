@@ -1,42 +1,31 @@
-'use client'
-import React from 'react'
-import ProductItem from '../ProductItems/ProductItem/ProductItem'
-import ProductItemsContainer from '../../../components/common/ProductItemsContainer/ProductsItemsContainer'
-import { useQuery } from '@tanstack/react-query';
+import React, { useState, useEffect } from 'react';
+import ProductItem from '../ProductItems/ProductItem/ProductItem';
+import ProductItemsContainer from '../../../components/common/ProductItemsContainer/ProductsItemsContainer';
 import axios from 'axios';
-import { BounceLoader } from 'react-spinners';
 
 const ProductItems = () => {
+    const [productsData, setProductsData] = useState(null);
 
-    const { data, isLoading, isError } = useQuery({
-        queryKey: ['products'],
-        queryFn: async () => {
-            const { data } = await axios.get('/api/products')
-            return data
-        },
-    })
+    useEffect(() => {
+        const getProducts = async () => {
+            try {
+                const response = await axios.get("/api/products");
+                setProductsData(response.data);
+            } catch (error) {
+                console.log(error);
+            }
+        };
 
-
-    if (isLoading) {
-        return <div className='flex justify-center items-center mx-0 my-auto'>
-            <BounceLoader
-                color="#C74FEB"
-                loading={true}
-                size={70}
-                aria-label="Loading Spinner"
-                data-testid="loader"
-            />
-        </div>
-    }
-    if (isError) return <div className='text-white'>error...</div>
+        getProducts();
+    }, []);
 
     return (
         <>
             <ProductItemsContainer>
-                <ProductItem productsData={...data} />
+                {productsData && <ProductItem productsData={productsData} />}
             </ProductItemsContainer>
         </>
-    )
-}
+    );
+};
 
-export default ProductItems
+export default ProductItems;
